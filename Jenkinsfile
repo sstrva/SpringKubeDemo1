@@ -1,20 +1,27 @@
 pipeline {
-    agent { docker { image 'maven:3.8.4-openjdk-11-slim' } }
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
     stages {
-        stage('Build maven package') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Build docker image') {
-            agent {
-                docker {
-                    build 'demoservice'
+         stage('Clone repository') { 
+            steps { 
+                script{
+                     checkout scm
                 }
             }
         }
-        stage('Test') {
-            echo 'Testing'
+        stage('Build') { 
+            steps { 
+                script{
+                   app = docker.build("demoservice1")
+                }
+            }
+        }
+        stage('Test'){
+            steps {
+                 echo 'Empty'
+            }
         }
     }
 }
