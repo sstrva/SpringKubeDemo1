@@ -1,0 +1,3 @@
+com\example\springkubedemo1\SpringKubeDemo1Application.class
+com\example\springkubedemo1\Service\DataService.class
+com\example\springkubedemo1\Controller\MainController.class
