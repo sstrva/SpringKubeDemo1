@@ -11,7 +11,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
                 agent {
                     docker { 
-                         args 'container ls' 
+                         image 'build -t demoservice .' 
                     }
                  }
             }
