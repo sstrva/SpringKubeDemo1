@@ -1,26 +1,8 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.1-adoptopenjdk-11' 
-            args '-v /root/.m2:/root/.m2' 
-        }
+node {
+    checkout scm
+    def testImage = docker.build("test-image", "./dockerfiles/test") 
+
+    testImage.inside {
+        sh 'make test'
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-                agent {
-                    docker { 
-                         image 'build -t demoservice .' 
-                    }
-                 }
-            }
-            post {
-                success {
-                   echo 'Sucessfully build docker image'
-              }
-            }
-        }
-    }
-   
 }
