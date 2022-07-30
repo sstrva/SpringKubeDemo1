@@ -9,7 +9,11 @@ pipeline {
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package'
-                sh 'docker container ls'
+                agent {
+                    docker { 
+                         args 'container ls' 
+                    }
+                 }
             }
             post {
                 success {
