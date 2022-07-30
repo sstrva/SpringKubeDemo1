@@ -19,7 +19,9 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh 'docker run -d -p 8081:8080 --name demoservice demoservice'
                 echo 'Testing'
+                sh 'docker stop demoservice'
             }
             post {
                 success {
