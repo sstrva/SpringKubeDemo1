@@ -9,23 +9,11 @@ pipeline {
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package'
-                sh 'docker build -t demoservice .'
+                sh 'docker container ls'
             }
             post {
                 success {
                    echo 'Sucessfully build docker image'
-              }
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'docker run -d -p 8081:8080 --name demoservice demoservice'
-                echo 'Testing'
-                sh 'docker stop demoservice'
-            }
-            post {
-                success {
-                   echo 'Test successful'
               }
             }
         }
