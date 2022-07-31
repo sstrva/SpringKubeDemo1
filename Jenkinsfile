@@ -13,9 +13,7 @@ pipeline {
         }
         stage('Build') { 
             steps {
-                script {
-                   app = docker.build("demoservice1")
-                }
+                sh 'docker build -t demoservice .'
             }
         }
         stage('Test'){
