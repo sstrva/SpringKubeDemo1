@@ -14,13 +14,9 @@ pipeline {
                 }
             }
         }
-        stage('Build maven app') { 
-            steps { 
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Build Docker image') { 
+        stage('Build') { 
             steps {
+                sh 'mvn -B -DskipTests clean package'
                 sh 'docker build -t demoservice .'
             }
         }
