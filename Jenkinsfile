@@ -17,20 +17,16 @@ pipeline {
                 }
             }
         }
-        stage('Build') { 
+        stage('Build image') { 
             steps {
                 sh 'mvn -B -DskipTests clean package'
                 sh 'docker build -t demoservice .'
                 sh 'docker tag demoservice studentdevelopersss/demoservice'
             }
         }
-        stage('Login'){
-            steps {
-                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
         stage('Push image to repository'){
             steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push studentdevelopersss/demoservice'
             }
         }    
