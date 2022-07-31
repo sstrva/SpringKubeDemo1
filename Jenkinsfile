@@ -14,7 +14,12 @@ pipeline {
                 }
             }
         }
-        stage('Build') { 
+        stage('Build maven app') { 
+            steps { 
+                sh 'mvn clean package'
+            }
+        }
+        stage('Build Docker image') { 
             steps {
                 sh 'docker build -t demoservice .'
             }
