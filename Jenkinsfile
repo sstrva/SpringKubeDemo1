@@ -25,7 +25,7 @@ pipeline {
                  echo 'Empty'
             }
         }
-        stage('Push to Dockerhub repository'){
+        stage('Push image to repository'){
             steps {
                  sh 'docker tag demoservice studentdevelopersss/demoservice'
                  withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
