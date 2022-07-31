@@ -18,6 +18,7 @@ pipeline {
             steps {
                 sh 'mvn -B -DskipTests clean package'
                 sh 'docker build -t demoservice .'
+                sh 'docker tag demoservice studentdevelopersss/demoservice'
             }
         }
         stage('Test'){
@@ -26,11 +27,10 @@ pipeline {
             }
         }
         stage('Push image to repository'){
-            steps {
-                 sh 'docker tag demoservice studentdevelopersss/demoservice'
-                 withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
-                   sh 'docker push studentdevelopersss/demoservice'
-                 }
+                steps {
+                     docker.withRegistry("http://registry.hub.docker.com/", "docker-hub-credentials") {
+                         sh "docker push studentdevelopersss/demoservice"
+                }
             }
         }
     }
