@@ -24,6 +24,11 @@ pipeline {
                 sh 'docker tag demoservice studentdevelopersss/demoservice'
             }
         }
+        stage('Test') {
+            steps{
+                echo 'Test empty'
+            }
+        }
         stage('Push image to repository'){
             steps{
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
