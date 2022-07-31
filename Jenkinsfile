@@ -1,27 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.1-adoptopenjdk-11'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent any
     options {
         skipStagesAfterUnstable()
     }
     stages {
          stage('Clone Repository') { 
             steps { 
-                script{
-                     checkout scm
-                }
+                sh 'checkout scm'
             }
         }
-        stage('Build Maven') { 
-            steps { 
-                sh 'mvn clean package'
-            }
-        }
-        stage('Build Docker image') { 
+        stage('Build') { 
             steps {
                 sh 'docker build -t demoservice .'
             }
