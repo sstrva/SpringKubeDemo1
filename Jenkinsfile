@@ -10,7 +10,7 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
-         stage('Clone Repository') { 
+         stage('Clone Github Repository') { 
             steps { 
                 script {
                      checkout scm
