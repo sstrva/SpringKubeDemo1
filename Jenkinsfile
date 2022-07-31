@@ -28,7 +28,9 @@ pipeline {
         stage('Push to Dockerhub repository'){
             steps {
                  sh 'docker tag demoservice studentdevelopersss/demoservice'
-                 sh 'docker push studentdevelopersss/demoservice'
+                 withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                   sh 'docker push studentdevelopersss/demoservice'
+                 }
             }
         }
     }
