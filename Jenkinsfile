@@ -1,12 +1,17 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven_3_5_0'
+    }    
     options {
         skipStagesAfterUnstable()
     }
     stages {
          stage('Clone Repository') { 
             steps { 
-                sh 'checkout scm'
+                script {
+                     checkout scm
+                }
             }
         }
         stage('Build') { 
