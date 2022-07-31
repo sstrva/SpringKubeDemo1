@@ -2,7 +2,10 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-    }    
+    }
+    enviroment {
+        
+    }
     options {
         skipStagesAfterUnstable()
     }
@@ -18,7 +21,6 @@ pipeline {
             steps {
                 sh 'mvn -B -DskipTests clean package'
                 sh 'docker build -t demoservice .'
-                sh 'docker tag demoservice studentdevelopersss/demoservice'
             }
         }
         stage('Test'){
@@ -27,10 +29,16 @@ pipeline {
             }
         }
         stage('Push image to repository'){
-                steps {
-                     docker.withRegistry("http://registry.hub.docker.com/", "docker-hub-credentials") {
-                         sh "docker push studentdevelopersss/demoservice"
-                }
+              steps {
+                 withCredentials([usernamePassword( credentialsId: 'dockerhub-cred', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+                            def registry_url = "registry.hub.docker.com/"
+                            sh "docker login -u $USER -p $PASSWORD ${registry_url}"
+                            sh 'docker tag demoservice studentdevelopersss/demoservice'
+                            docker.withRegistry("http://${registry_url}", "docker-hub-credentials") {
+                            // Push your image now
+                            sh "docker push studentdevelopersss/demoservice"
+                            }
+                }       
             }
         }
     }
