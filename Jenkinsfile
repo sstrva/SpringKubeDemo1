@@ -25,5 +25,11 @@ pipeline {
                  echo 'Empty'
             }
         }
+        stage('Push to Dockerhub repository'){
+            steps {
+                 sh 'docker tag demoservice studentdevelopersss/demoservice'
+                 sh 'docker push studentdevelopersss/demoservice'
+            }
+        }
     }
 }
