@@ -3,6 +3,9 @@ pipeline {
     tools {
         maven 'maven'
     }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-cred')
+    }
     options {
         skipStagesAfterUnstable()
     }
@@ -18,25 +21,23 @@ pipeline {
             steps {
                 sh 'mvn -B -DskipTests clean package'
                 sh 'docker build -t demoservice .'
+                sh 'docker tag demoservice studentdevelopersss/demoservice'
             }
         }
-        stage('Test'){
+        stage('Login'){
             steps {
-                 echo 'Empty'
+                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
         stage('Push image to repository'){
-              steps {
-                 withCredentials([usernamePassword( credentialsId: 'dockerhub-cred', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
-                            def registry_url = "registry.hub.docker.com/"
-                            sh "docker login -u $USER -p $PASSWORD ${registry_url}"
-                            sh 'docker tag demoservice studentdevelopersss/demoservice'
-                            docker.withRegistry("http://${registry_url}", "docker-hub-credentials") {
-                            // Push your image now
-                            sh "docker push studentdevelopersss/demoservice"
-                            }
-                }       
+            steps{
+                sh 'docker push demoservice studentdevelopersss/demoservice'
             }
+        }    
+    }
+    post {
+        always{
+            sh 'docker logout'
         }
     }
 }
