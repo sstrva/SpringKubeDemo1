@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Push image to repository'){
             steps{
-                sh 'docker push demoservice studentdevelopersss/demoservice'
+                sh 'docker push studentdevelopersss/demoservice'
             }
         }    
     }
