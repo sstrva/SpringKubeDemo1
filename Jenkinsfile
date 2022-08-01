@@ -34,7 +34,12 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push studentdevelopersss/demoservice'
             }
-        }    
+        }
+        stage('Deployment'){
+            steps{
+                sh 'kubectl get pods'
+            }
+        }
     }
     post {
         always{
