@@ -29,15 +29,10 @@ pipeline {
                 echo 'Test empty'
             }
         }
-        stage('Push image to repository'){
+        stage('Push image to Dockerhub'){
             steps{
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push studentdevelopersss/demoservice'
-            }
-        }
-        stage('Deployment'){
-            steps{
-                sh 'kubectl get pods'
             }
         }
     }
