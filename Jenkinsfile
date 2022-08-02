@@ -5,6 +5,8 @@ pipeline {
     }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-cred')
+        DOCKER_IMAGE_NAME = 'demoservice'
+        DOCKER_TAG_NAME = 'studentdevelopersss/demoservice'
     }
     options {
         skipStagesAfterUnstable()
@@ -20,8 +22,8 @@ pipeline {
         stage('Build image') { 
             steps {
                 sh 'mvn -B -DskipTests clean package'
-                sh 'docker build -t demoservice .'
-                sh 'docker tag demoservice studentdevelopersss/demoservice'
+                sh 'docker build -t $DOCKER_IMAGE_NAME .'
+                sh 'docker tag $DOCKER_IMAGE_NAME $DOCKER_TAG_NAME'
             }
         }
         stage('Test') {
@@ -32,7 +34,7 @@ pipeline {
         stage('Push image to Dockerhub'){
             steps{
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push studentdevelopersss/demoservice'
+                sh 'docker push $DOCKER_TAG_NAME'
             }
         }
     }
