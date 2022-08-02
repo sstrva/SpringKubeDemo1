@@ -40,6 +40,7 @@ pipeline {
     }
     post {
         always{
+            sh 'docker image rm $DOCKER_IMAGE_NAME'
             sh 'docker logout'
         }
     }
