@@ -6,7 +6,9 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-cred')
         DOCKER_IMAGE_NAME = 'demoservice'
+        DOCKER_CONTAINER_NAME = 'demoservice'
         DOCKER_TAG_NAME = 'studentdevelopersss/demoservice'
+        POSTMAN_URL_LINK = 'https://www.getpostman.com/collections/d6d4cb0f1815475be4c9'
     }
     options {
         skipStagesAfterUnstable()
@@ -27,12 +29,14 @@ pipeline {
             }
         }
         stage('Test') {
-            steps{
-                echo 'Test empty'
+            steps {
+                echo 'API testing begins'
+                sh 'docker run -d -p 8081:8080 --name $DOCKER_CONTAINER_NAME $DOCKER_IMAGE_NAME'
+                sh 'docker run -t newman/postman run $POSTMAN_URL_LINK'
             }
         }
         stage('Push image to Dockerhub'){
-            steps{
+            steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push $DOCKER_TAG_NAME'
             }
