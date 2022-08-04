@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo 'API testing begins'
                 sh 'docker run -d -p 8081:8080 --name $DOCKER_CONTAINER_NAME $DOCKER_IMAGE_NAME'
-                sh 'docker run -t newman/postman run $POSTMAN_URL_LINK'
+                sh 'docker run -t postman/newman run $POSTMAN_URL_LINK'
             }
         }
         stage('Push image to Dockerhub'){
