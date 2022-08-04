@@ -14,6 +14,7 @@ import java.util.Locale;
 
 @RestController
 @RequestMapping("/weatherservice")
+@CrossOrigin(origins = "*")
 public class MainController implements Serializable {
     @GetMapping(produces = "application/json")
     public ResponseEntity<String> getData(@RequestParam String city){
