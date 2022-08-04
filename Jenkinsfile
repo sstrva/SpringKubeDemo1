@@ -6,7 +6,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-cred')
         DOCKER_IMAGE_NAME = 'demoservice'
-        DOCKER_CONTAINER_NAME = 'demoservice'
+        DOCKER_CONTAINER_NAME = 'demoservice2'
         DOCKER_TAG_NAME = 'studentdevelopersss/demoservice'
         POSTMAN_URL_LINK = 'https://www.getpostman.com/collections/d6d4cb0f1815475be4c9'
     }
