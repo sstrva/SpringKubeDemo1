@@ -8,7 +8,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'demoservice'
         DOCKER_CONTAINER_NAME = 'demoservice2'
         DOCKER_TAG_NAME = 'studentdevelopersss/demoservice'
-        POSTMAN_URL_LINK = 'https://www.getpostman.com/collections/d6d4cb0f1815475be4c9'
+        POSTMAN_URL_LINK = 'https://www.getpostman.com/collections/73824c24cc8ebd97f972'
     }
     options {
         skipStagesAfterUnstable()
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo 'API testing begins'
                 sh 'docker run -d -p 8081:8080 --rm --name $DOCKER_CONTAINER_NAME --network net $DOCKER_IMAGE_NAME'
-                sh 'docker run -t --network net postman/newman run $POSTMAN_URL_LINK'
+                sh 'docker run -t --rm --name postman --network net postman/newman run $POSTMAN_URL_LINK'
             }
         }
         stage('Push image to Dockerhub'){
