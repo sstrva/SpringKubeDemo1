@@ -49,6 +49,9 @@ pipeline {
         }
     }
     post {
+        failure {
+            sh 'docker stop $DOCKER_CONTAINER_NAME'
+        }
         always{
             sh 'docker rm $DOCKER_CONTAINER_NAME'
             sh 'docker image rm $DOCKER_IMAGE_NAME'
