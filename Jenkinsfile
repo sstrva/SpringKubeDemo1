@@ -32,7 +32,7 @@ pipeline {
         stage('Test') {
             steps {
                 script{
-                    def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'
+                    def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$', returnStatus:true
                     if (checkIfContainerExists){
                         echo 'it doesnt exits'
                     }
