@@ -34,7 +34,10 @@ pipeline {
                 script{
                     def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$', returnStatus:true
                     if (checkIfContainerExists == 0){
-                        echo 'it doesnt exits'
+                        echo 'it doesnt exists'
+                    }
+                    else{
+                        echo 'it does exists'
                     }
                 }
                 echo 'API testing begins'
