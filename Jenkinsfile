@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script{
                     def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'
-                    if (checkIfContainerExists == 0){
+                    if (checkIfContainerExists){
                         echo 'it doesnt exits'
                     }
                 }
