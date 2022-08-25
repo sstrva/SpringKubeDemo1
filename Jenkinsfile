@@ -32,7 +32,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'API testing begins'
-                if('docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'){
+                def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'
+                if(checkIfContainerExists == 0){
                     echo 'it does exist'
                 }
                 sh 'docker run -d -p 8081:8080 --rm --name $DOCKER_CONTAINER_NAME --network net $DOCKER_IMAGE_NAME'
