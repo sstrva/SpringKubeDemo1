@@ -14,6 +14,13 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+        stage('Clone Github Repository') { 
+            steps { 
+                script {
+                     checkout scm
+                }
+            }
+        }
         stage('Test') {
             steps {
                 script{
@@ -25,10 +32,6 @@ pipeline {
                         echo 'it does exists'
                     }
                 }
-                echo 'API testing begins'
-                sh 'docker run -d -p 8081:8080 --rm --name $DOCKER_CONTAINER_NAME --network net $DOCKER_IMAGE_NAME'
-                sh 'docker run -t --rm --name postman --network net postman/newman run $POSTMAN_URL_LINK'
-                sh 'docker stop $DOCKER_CONTAINER_NAME'
             }
         }
     }
