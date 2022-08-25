@@ -31,10 +31,13 @@ pipeline {
         }
         stage('Test') {
             steps {
+                script{
+                    def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'
+                    if (checkIfContainerExists == 0){
+                        echo 'it doesnt exits'
+                    }
+                }
                 echo 'API testing begins'
-                def checkIfContainerExists = sh script: 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'
-                if checkIfContainerExists == 0 then
-                    echo 'it does exist'
                 sh 'docker run -d -p 8081:8080 --rm --name $DOCKER_CONTAINER_NAME --network net $DOCKER_IMAGE_NAME'
                 sh 'docker run -t --rm --name postman --network net postman/newman run $POSTMAN_URL_LINK'
                 sh 'docker stop $DOCKER_CONTAINER_NAME'
