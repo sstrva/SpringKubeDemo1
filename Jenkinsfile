@@ -31,4 +31,5 @@ pipeline {
                 sh 'docker stop $DOCKER_CONTAINER_NAME'
             }
         }
+    }
 }
