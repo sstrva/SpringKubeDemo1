@@ -26,13 +26,16 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
                 sh 'docker build -t $DOCKER_IMAGE_NAME .'
                 sh 'docker tag $DOCKER_IMAGE_NAME $DOCKER_TAG_NAME'
+              
             }
         }
         stage('Test') {
             steps {
                 echo 'API testing begins'
+                sh 'docker container ls -all -f name=^/$DOCKER_CONTAINER_NAME$'
                 sh 'docker run -d -p 8081:8080 --rm --name $DOCKER_CONTAINER_NAME --network net $DOCKER_IMAGE_NAME'
                 sh 'docker run -t --rm --name postman --network net postman/newman run $POSTMAN_URL_LINK'
+                sh 'docker stop $DOCKER_CONTAINER_NAME'
             }
         }
         stage('Push image to Dockerhub'){
@@ -44,7 +47,6 @@ pipeline {
     }
     post {
         always{
-            sh 'docker stop $DOCKER_CONTAINER_NAME'
             sh 'docker image rm $DOCKER_IMAGE_NAME'
             sh 'docker logout'
         }
