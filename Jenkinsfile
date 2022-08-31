@@ -9,6 +9,7 @@ pipeline {
         DOCKER_CONTAINER_NAME = 'demoservice2'
         DOCKER_TAG_NAME = 'studentdevelopersss/demoservice'
         POSTMAN_URL_LINK = 'https://www.getpostman.com/collections/73824c24cc8ebd97f972'
+        DATABASE_URL = 'jdbc:mysql://mysql:3306/recruitement_db'
     }
     options {
         skipStagesAfterUnstable()
