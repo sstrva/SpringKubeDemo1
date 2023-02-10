@@ -33,7 +33,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'docker run -d -p 8081:8080 --rm --name $DOCKER_CONTAINER_NAME --network net $DOCKER_IMAGE_NAME'
-                sh 'docker run -t --rm --name postman -v $PWD/postman:/etc/newman postman/newman run $POSTMAN_URL_LINK'
+                sh 'docker run -t --rm --name postman --network net postman/newman -v $PWD/postman:/etc/newman run $POSTMAN_URL_LINK'
                 
             }
         }
